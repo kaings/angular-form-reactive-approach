@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import {Observable} from 'rxjs';
 import {FormArray, FormControl, FormGroup, Validators} from '@angular/forms';
 
 @Component({
@@ -15,7 +16,7 @@ export class AppComponent implements OnInit {
     this.signupForm = new FormGroup({
       'userData': new FormGroup({
         'username': new FormControl(null, [Validators.required, this.forbiddenUsernameFunc.bind(this)]),
-        'email': new FormControl(null, [Validators.required, Validators.email])
+        'email': new FormControl(null, [Validators.required, Validators.email], this.forbiddenEmailFunc)
       }),
       'gender': new FormControl('male'),
       'hobbies': new FormArray([])
@@ -34,10 +35,31 @@ export class AppComponent implements OnInit {
     (<FormArray>this.signupForm.get('hobbies')).push(ctrl);   // casting to FormArray is important since get() will give us object
   }
 
+  /* custom validator */
   forbiddenUsernameFunc(control: FormControl): {[s: string]: boolean} {
     if(this.forbiddenUsernames.indexOf(control.value) !== -1) {
       return {'forbiddenUsernameFound': true};
     }
     return null;    // if validation is valid, it should ALWAYS return null
+  }
+
+  /* async validator */
+  /* in this example, this async validator will get the result in 2.0secs, returning promise as result.
+  FYI, you can also use Observable */
+  forbiddenEmailFunc(control: FormControl): Promise<any> | Observable<any> {
+    const promise = new Promise(
+      (resolve, reject) => {
+        setTimeout(
+          () => {
+            if (control.value === 'test@test.com') {
+              resolve({'forbiddenEmailFound': true});
+            }else{
+              resolve(null);
+            }
+          }, 2000);
+      }
+    );
+
+    return promise;
   }
 }
