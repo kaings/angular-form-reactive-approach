@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {FormArray, FormControl, FormGroup, Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-root',
@@ -16,13 +16,20 @@ export class AppComponent implements OnInit {
         'username': new FormControl(null, Validators.required),
         'email': new FormControl(null, [Validators.required, Validators.email])
       }),
-      'gender': new FormControl('male')
+      'gender': new FormControl('male'),
+      'hobbies': new FormArray([])
     });
   }
 
   onSubmit() {
     console.log(this.signupForm);
+    // console.log(this.signupForm.get('userData.username'));
+    // console.log(this.signupForm.get('gender'));
+    console.log(this.signupForm.get('hobbies'));
   }
 
-
+  onAddHobby() {
+    const ctrl = new FormControl(null, Validators.required);
+    (<FormArray>this.signupForm.get('hobbies')).push(ctrl);   // casting to FormArray is important since get() will give us object
+  }
 }

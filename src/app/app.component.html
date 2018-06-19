@@ -34,6 +34,27 @@
               formControlName="gender">{{ gender }}
           </label>
         </div>
+        <div formArrayName="hobbies">
+          <h4>Your Hobbies</h4>
+
+          <!-- added type="button" to avoid it being treated as default type="submit" -->
+          <button
+            type="button"
+            class="btn btn-default"
+            (click)="onAddHobby()">Add Hobby</button>
+          <div
+            class="form-group"
+            *ngFor="let emptyFormControlAsHobby of signupForm.get('hobbies').controls; let i = index">
+            <input type="text" class="form-control" [formControlName]="i">
+          </div>
+          <!-- to access the array of formcontrols in hobbies, they are all stored in the object property 'controls'.
+           try to console.log(this.signupForm.get('hobbies')) from the .ts file-->
+
+          <!-- meanwhile, the formControlName linkage is important to access the controls via HTML so that the value
+           entered in the HTML element will link to the control so that we will have correct data / data input will be linked to
+           the control as well. If the controlName is not set, the value will not be reflected when submit the form -->
+
+        </div>
         <span
           *ngIf="!signupForm.valid && signupForm.touched"
           class="help-block">Please Enter Valid Data!</span>
