@@ -37,6 +37,25 @@ export class AppComponent implements OnInit {
         console.log(formStatus);
       }
     );
+
+    /* populate all the values in the form */
+    /*
+    this.signupForm.setValue({
+      'userData': {
+        'username': 'Will',
+        'email': 'will@will.com'
+      },
+      'gender': 'male',
+      'hobbies': []
+    });
+    */
+
+    /* populate only certain value in the form */
+    this.signupForm.patchValue({
+      'userData': {
+        'username': 'Will'
+      }
+    });
   }
 
   onSubmit() {
@@ -44,6 +63,9 @@ export class AppComponent implements OnInit {
     // console.log(this.signupForm.get('userData.username'));
     // console.log(this.signupForm.get('gender'));
     console.log(this.signupForm.get('hobbies'));
+
+    /* reset form */
+    this.signupForm.reset();
   }
 
   onAddHobby() {
