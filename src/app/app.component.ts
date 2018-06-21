@@ -65,7 +65,7 @@ export class AppComponent implements OnInit {
     console.log(this.signupForm.get('hobbies'));
 
     /* reset form */
-    this.signupForm.reset();
+    // this.signupForm.reset();
   }
 
   onAddHobby() {
