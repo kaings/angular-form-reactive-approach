@@ -70,7 +70,11 @@ export class AppComponent implements OnInit {
 
   onAddHobby() {
     const ctrl = new FormControl(null, Validators.required);
-    (<FormArray>this.signupForm.get('hobbies')).push(ctrl);   // casting to FormArray is important since get() will give us object
+
+    // (<FormArray>this.signupForm.get('hobbies')).push(ctrl);   // casting to FormArray is important since get() will give us object
+
+    /* ^ similar to the above line, it can also be written as follows */
+    (this.signupForm.get('hobbies') as FormArray).push(ctrl);
   }
 
   /* custom validator */
